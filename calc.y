@@ -83,13 +83,19 @@
   
 	Vardef:	
 	 TOK_INT TOK_ID
-		{
+		{ 
+		    if(findVar($2)==0)
+			{
 			s.id_type = 1;
+			}
+			
 		}
 ;
-  stmts: 
-  | stmt TOK_SEMICOLON stmts
+	stmts: 
+	| 
+	stmt TOK_SEMICOLON stmts
     ;
+	
     stmt:
 	TOK_ID TOK_EQUAL expr
 		{
