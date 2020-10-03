@@ -86,11 +86,6 @@
 		{
 			s.id_type = 1;
 		}
-		|
-		TOK_TYPEFLOAT TOK_ID
-		{
-			s.id_type = 2;
-		}
 ;
     stmt:
 	TOK_ID TOK_EQUAL expr
