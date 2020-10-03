@@ -75,17 +75,20 @@
     ;
 
     stmt:
-     TOK_INT TOK_ID TOK_EQUAL expr
-    {
-      upVar($2,$4);
-    }
+     | TOK_INT expr
+	 {
+	 } 
 	|  TOK_ID TOK_EQUAL expr
     {
       upVar($1,$3);
     }
-    | TOK_ADD TOK_EQUAL expr
+    | TOK_ID TOK_ADD TOK_EQUAL expr
     {
       upVar($1, findVar($1) + $4);
+    }
+	| TOK_ID TOK_MUL TOK_EQUAL expr
+    {
+      upVar($1, findVar($1) * $4);
     }
     | TOK_PRINT expr
     {
