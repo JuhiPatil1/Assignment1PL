@@ -81,7 +81,8 @@
 		Vardef TOK_SEMICOLON Vardefs;
 
   
-	Vardef:	TOK_INT TOK_ID
+	Vardef:	
+	 TOK_INT TOK_ID
 		{
 			s.id_type = 1;
 		}
@@ -101,6 +102,8 @@
 				fprintf(stdout, "Type error EXP: %d ID: %d\n", s.expr_type, s.id_type);
 				return typeerror("Type error");
 			}
+			
+			upVar($1,$3);
 
 		}
 	|  TOK_ID TOK_EQUAL expr
@@ -137,6 +140,7 @@
     }
     | TOK_NUM
     {
+	  fprintf(stdout, "Reached at TOK_NUM\n")
       $$ = $1;
     }
     | TOK_ID
