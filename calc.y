@@ -80,13 +80,15 @@
 		|
 		Vardef TOK_SEMICOLON Vardefs;
 
-    stmts: | stmt TOK_SEMICOLON stmts;
-    ;
+  
 	Vardef:	TOK_INT TOK_ID
 		{
 			s.id_type = 1;
 		}
 ;
+  stmts: 
+  | stmt TOK_SEMICOLON stmts
+    ;
     stmt:
 	TOK_ID TOK_EQUAL expr
 		{
