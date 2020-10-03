@@ -64,7 +64,7 @@
 
 
     /*%type <int_val> expr TOK_NUM*/
-    /*%type <int_val> expr TOK_NUM*/
+    %type <int_val> expr TOK_NUM
     %type <id> TOK_ID
 
     %left TOK_ADD 
@@ -122,7 +122,9 @@ expr:
 		}
 		| TOK_NUM
 		{
-            $$ = $1;
+            s.expr_type = s.id_type;
+			$<result_val>$ = (int)$1;
+			s.value = (int)$1;
 		}
 		|
 		TOK_ID
