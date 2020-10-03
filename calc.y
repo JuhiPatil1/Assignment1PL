@@ -82,13 +82,10 @@
 
   
 	Vardef:	
-	 TOK_INT TOK_ID
+		|
+	TOK_INT TOK_ID
 		{ 
-		    if(findVar($2)==0)
-			{
-			s.id_type = 1;
-			}
-			
+			s.id_type = 1;			
 		}
 ;
 	stmts: 
