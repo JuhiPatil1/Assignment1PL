@@ -101,10 +101,6 @@
 			}
 
 		}
-     | TOK_INT TOK_ID TOK_EQUAL expr
-	 {
-	   upVar($1,$3);
-	 } 
 	|  TOK_ID TOK_EQUAL expr
     {
       upVar($1,$3);
