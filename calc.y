@@ -82,7 +82,7 @@
 
 	;
 	Vardef:	
-		|
+		
 	TOK_INT TOK_ID
 		{ 
 			s.id_type = 1;			
