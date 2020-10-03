@@ -53,7 +53,6 @@
     %token TOK_SEMICOLON TOK_ADD TOK_MUL TOK_NUM TOK_PRINT
     %token TOK_OPEN_BRAC TOK_CLOSE_BRAC TOK_EQUAL TOK_ID TOK_BRAC_SUB
 	%token TOK_INT
-	/*%token<int_val> expr TOK_NUM*/
 	%token<int_val> INT 
 
     %union
@@ -69,6 +68,7 @@
 
     %left TOK_ADD 
     %left TOK_MUL 
+    %left TOK_EQUAL
 
     %%
 
@@ -86,9 +86,14 @@
 		{
 			s.id_type = 1;
 		}
+		|
+		TOK_TYPEFLOAT TOK_ID
+		{
+			s.id_type = 2;
+		}
 ;
-Stmt:
-		TOK_ID TOK_EQUAL expr
+    stmt:
+	TOK_ID TOK_EQUAL expr
 		{
 			if(s.id_type != 1 && s.id_type != 2)
 			{
@@ -99,59 +104,57 @@ Stmt:
 				fprintf(stdout, "Type error EXP: %d ID: %d\n", s.expr_type, s.id_type);
 				return typeerror("Type error");
 			}
-			upVar($1,$3);
 
 		}
-		|
-		TOK_PRINT TOK_ID
-		{
-			fprintf(stdout, "The value is: %.2f \n", s.value);
-		}
-		|
-		{
-			fprintf(stdout, "Unable to read statement\n");
-		}
+     | TOK_INT TOK_ID TOK_EQUAL expr
+	 {
+	   upVar($1,$3);
+	 } 
+	|  TOK_ID TOK_EQUAL expr
+    {
+      upVar($1,$3);
+    }
+    | TOK_ID TOK_ADD TOK_EQUAL expr
+    {
+      upVar($1, findVar($1) + $4);
+    }
+	| TOK_ID TOK_MUL TOK_EQUAL expr
+    {
+      upVar($1, findVar($1) * $4);
+    }
+    | TOK_PRINT expr
+    {
+      fprintf(stdout, "%d\n", $2);
+    }
+    | TOK_PRINT TOK_ID
+    {
+      fprintf(stdout, "%d\n",findVar($2));
+    }
+    ;
 
-;
-expr:
-		INT
-		{
-			s.expr_type = s.id_type;
-			$<result_val>$ = (int)$1;
-			s.value = (int)$1;
-		}
-		| TOK_NUM
-		{
-            s.expr_type = s.id_type;
-			$<result_val>$ = (int)$1;
-			s.value = (int)$1;
-		}
-		|
-		TOK_ID
-		{
-			s.expr_type = s.id_type;
-			$<result_val>$ = s.value;
-		}
-		|
-		expr TOK_MUL expr
-	  	{
-			$<result_val>$ = (int)$1 * (int)$3;
-			s.value = (int)$1 * (int)$3;
-			
-		}
-		|
-		expr TOK_ADD expr
-	  	{
-			s.value = (int)$1 + (int)$3;
-			$<result_val>$ = s.value;
-			
-		}
-		|
-		{
-			fprintf(stdout, "Unable to find a match\n");
-		}
-;
 
+    expr:
+     expr TOK_ADD expr
+    {
+      $$ = $1 + $3;
+    }
+    | expr TOK_MUL expr
+    {
+      $$ = $1 * $3;
+    }
+    | TOK_NUM
+    {
+      $$ = $1;
+    }
+    | TOK_ID
+    {
+      $$ = findVar($1);
+    }
+    | TOK_BRAC_SUB TOK_NUM TOK_CLOSE_BRAC
+    {
+      $$ = $2 * -1;
+    }
+    ;
 
 
     %%
@@ -167,7 +170,7 @@ expr:
 	{
 	printf("Line %d: %s\n", line_no, s);
 	return 0;
-	}a
+	}
 
     int main()
     {
