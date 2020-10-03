@@ -78,12 +78,12 @@
     ;
 	Vardefs:
 		|
-		Vardef TOK_SEMICOLON Vardefs;
+		Vardef TOK_ID TOK_SEMICOLON Vardefs;
 
 	;
 	Vardef:	
-		
-	TOK_INT TOK_ID
+		|
+	TOK_INT 
 		{ 
 			s.id_type = 1;			
 		}
