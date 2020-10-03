@@ -46,7 +46,7 @@
     }
     %}
 
-    %token TOK_SEMICOLON TOK_ADD TOK_SUB TOK_MUL TOK_DIV TOK_NUM TOK_PRINT
+    %token TOK_SEMICOLON TOK_ADD TOK_MUL TOK_NUM TOK_PRINT
     %token TOK_OPEN_BRAC TOK_CLOSE_BRAC TOK_EQUAL TOK_ID TOK_BRAC_SUB 
 	%token<int_val> INT TOK_INT
 
@@ -61,8 +61,8 @@
     %type <int_val> expr TOK_NUM
     %type <id> TOK_ID
 
-    %left TOK_ADD TOK_SUB
-    %left TOK_MUL TOK_DIV
+    %left TOK_ADD 
+    %left TOK_MUL 
     %left TOK_EQUAL
 
     %%
@@ -75,17 +75,17 @@
     ;
 
     stmt:
-    | TOK_ID TOK_EQUAL expr
+    | TOK_INT TOK_ID TOK_EQUAL expr
     {
-      upVar($1,$3);
-    }
-    | TOK_ID TOK_MUL TOK_EQUAL expr
-    {
-      upVar($1, findVar($1) * $4);
+      upVar($2,$4);
     }
     | TOK_ID TOK_ADD TOK_EQUAL expr
     {
       upVar($1, findVar($1) + $4);
+    }
+	| TOK_INT expr
+    {
+     
     }
     | TOK_PRINT expr
     {

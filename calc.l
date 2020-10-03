@@ -19,7 +19,11 @@ lexerr [0-9a-z]*
 				}
 "(-"		{	return(TOK_BRAC_SUB);						}
 "*"			{	return(TOK_MUL);								}
-"/"			{	return(TOK_DIV);								}
+"/"			{	
+					printf("\nLexical Error: %s",yytext);
+					return(yytext[0]);
+                
+				}
 "=" 		{ return(TOK_EQUAL);							}
 "(" 		{ return(TOK_OPEN_BRAC);					}
 ")" 		{ return(TOK_CLOSE_BRAC);					}
