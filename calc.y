@@ -46,8 +46,9 @@
     }
     %}
 
-    %token TOK_SEMICOLON TOK_ADD TOK_SUB TOK_MUL TOK_DIV TOK_NUM TOK_PRINTLN
+    %token TOK_SEMICOLON TOK_ADD TOK_SUB TOK_MUL TOK_DIV TOK_NUM TOK_PRINT
     %token TOK_OPEN_BRAC TOK_CLOSE_BRAC TOK_EQUAL TOK_ID TOK_BRAC_SUB
+	%token<int_val> INT
 
     %union
     {
@@ -86,11 +87,11 @@
     {
       upVar($1, findVar($1) + $4);
     }
-    | TOK_PRINTLN expr
+    | TOK_PRINT expr
     {
       fprintf(stdout, "%d\n", $2);
     }
-    | TOK_PRINTLN TOK_ID
+    | TOK_PRINT TOK_ID
     {
       fprintf(stdout, "%d\n",findVar($2));
     }
