@@ -21,12 +21,10 @@ lexerr [0-9a-z]*
 "*"			{	return(TOK_MUL);								}
 "/"			{	return(TOK_DIV);								}
 "=" 		{ return(TOK_EQUAL);							}
-"{" 		{ return(TOK_OPEN_CURL_BRAC);			}
-"}" 		{ return(TOK_CLOSE_CURL_BRAC);		}
 "(" 		{ return(TOK_OPEN_BRAC);					}
 ")" 		{ return(TOK_CLOSE_BRAC);					}
-"main"	{ return(TOK_MAIN);								}
-"int" {    return(TOK_INT);                                             }
+"main"			{	return(TOK_MAIN);					}
+"int"			{	return(TOK_INT);					}
 
 
 
