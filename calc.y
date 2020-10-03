@@ -72,26 +72,37 @@
 
     %%
 
+	Vardef :
+	| TOK_INT;
+
+
+
+
+
     Prog:
 	|
-     Vardefs stmts;
+      stmts;
+    ;
+	
+	stmts: 
+	|
+	Vardef TOK_SEMICOLON Vardefs;
+	| 
+	stmt TOK_SEMICOLON stmts;
     ;
 	Vardefs:
 		|
-		Vardef TOK_ID TOK_SEMICOLON Vardefs;
+		Vardef TOK_SEMICOLON Vardefs;
 
 	;
 	Vardef:	
 		|
-	TOK_INT 
+	TOK_INT TOK_ID
 		{ 
 			s.id_type = 1;			
 		}
 ;
-	stmts: 
-	| 
-	stmt TOK_SEMICOLON stmts
-    ;
+	
 	
     stmt:
 	TOK_ID TOK_EQUAL expr
