@@ -51,7 +51,7 @@
 
     %union
     {
-      int int_val = 0;
+      int int_val;
       char id[100];
     }
 
