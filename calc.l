@@ -26,6 +26,7 @@ lexerr [0-9a-z]*
 "(" 		{ return(TOK_OPEN_BRAC);					}
 ")" 		{ return(TOK_CLOSE_BRAC);					}
 "main"	{ return(TOK_MAIN);								}
+"int" {    return(TOK_INT);                                             }
 
 
 
