@@ -53,6 +53,7 @@
     %token TOK_SEMICOLON TOK_ADD TOK_MUL TOK_NUM TOK_PRINT
     %token TOK_OPEN_BRAC TOK_CLOSE_BRAC TOK_EQUAL TOK_ID TOK_BRAC_SUB
 	%token TOK_INT
+	/*%token<int_val> expr TOK_NUM*/
 	%token<int_val> INT 
 
     %union
@@ -63,7 +64,7 @@
 
 
     /*%type <int_val> expr TOK_NUM*/
-    %type <int_val> expr TOK_NUM
+    /*%type <int_val> expr TOK_NUM*/
     %type <id> TOK_ID
 
     %left TOK_ADD 
@@ -118,6 +119,10 @@ expr:
 			s.expr_type = s.id_type;
 			$<result_val>$ = (int)$1;
 			s.value = (int)$1;
+		}
+		| TOK_NUM
+		{
+            $$ = $1;
 		}
 		|
 		TOK_ID
