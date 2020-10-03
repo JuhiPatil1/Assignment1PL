@@ -130,14 +130,14 @@ expr:
 	  	{
 			$<result_val>$ = (int)$1 * (int)$3;
 			s.value = (int)$1 * (int)$3;
-			upVar($1,$3);
+			
 		}
 		|
 		expr TOK_ADD expr
 	  	{
 			s.value = (int)$1 + (int)$3;
 			$<result_val>$ = s.value;
-			upVar($1,$3);
+			
 		}
 		|
 		{
