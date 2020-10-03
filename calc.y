@@ -74,13 +74,13 @@
 
     Prog:
 	|
-     Vardefs stmts
+     Vardefs stmts;
     ;
 	Vardefs:
 		|
 		Vardef TOK_SEMICOLON Vardefs;
 
-  
+	;
 	Vardef:	
 		|
 	TOK_INT TOK_ID
