@@ -25,7 +25,7 @@
       int i=0;
       for(i=0;i<var;i++)
       {
-        if(strcmp(SyTab[i].identifier,VaNam)==0)
+        if(!strcmp(SyTab[i].identifier,VaNam)==0)
         {
           return SyTab[i].table_value;
         }
@@ -38,7 +38,7 @@
       int f=0, i=0;
       for(i=0;i<var;i++)
       {
-        if(strcmp(SyTab[i].identifier,VaNam)==0)
+        if(!strcmp(SyTab[i].identifier,VaNam)==0)
         {
           SyTab[i].table_value = NewVal;
           f=1;
