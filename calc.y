@@ -75,26 +75,26 @@
    
 	Stmts: 
 	| 
-	Stmt TOK_SEMICOLON Stmts;
+	 Stmts Stmt;
     ;
 	
     Stmt:
-	TOK_INT TOK_ID expr
+	TOK_INT TOK_ID expr TOK_SEMICOLON
 	{
 	fprintf(stdout, "Reached at TOK_NUM %d\n",$3);
 	   /* set value to 0*/
 	   upVar($2,$3);
 	}
-    |TOK_ID TOK_EQUAL expr
+    |TOK_ID TOK_EQUAL expr TOK_SEMICOLON
     {
 	fprintf(stdout, "Reached at also TOK_NUM %d\n",$3);
       upVar($1,$3);
     }
-    | TOK_PRINT expr
+    | TOK_PRINT expr TOK_SEMICOLON
     {
       fprintf(stdout, "%d\n", $2);
     }
-    | TOK_PRINT TOK_ID
+    | TOK_PRINT TOK_ID TOK_SEMICOLON
     {
       fprintf(stdout, "%d\n",findVar($2));
     }
