@@ -11,12 +11,6 @@
     int table_value;
   }SyTab[1000];
   
-  struct symbolTable
-  {
-	int id_value;
-	char* value_name;
-	struct symbolTable* next;
-  }*st;
     
 	int var=0;
 	
@@ -25,7 +19,7 @@
       int i=0;
       for(i=0;i<var;i++)
       {
-        if(!strcmp(SyTab[i].identifier,VaNam)==0)
+        if(!strcmp(SyTab[i].identifier,VaNam))
         {
           return SyTab[i].table_value;
         }
@@ -38,7 +32,7 @@
       int f=0, i=0;
       for(i=0;i<var;i++)
       {
-        if(!strcmp(SyTab[i].identifier,VaNam)==0)
+        if(!strcmp(SyTab[i].identifier,VaNam))
         {
           SyTab[i].table_value = NewVal;
           f=1;
@@ -58,46 +52,40 @@
     %token TOK_OPEN_BRAC TOK_CLOSE_BRAC TOK_EQUAL TOK_ID TOK_BRAC_SUB
 	%token TOK_INT
 	 
-
     %union
     {
       int int_val;
       char id[100];
+	  int expr;
     }
-
-
     
-    %type <int_val> expr TOK_NUM
-    
-	%type <string> TOK_ID
+	%type <expr> expr     
+    %type <int_val> TOK_NUM    
+	%type <id> TOK_ID
 
     %left TOK_ADD 
-    
 	%left TOK_MUL 
     
-	%left TOK_EQUAL
 
     %%
 
    
 	Stmts: 
+	
 	| 
-	 Stmts Stmt;
+	 Stmts Stmt
     ;
 	
     Stmt:
-	TOK_INT TOK_ID TOK_SEMICOLON
-	{
-	//fprintf(stdout, "Reached at TOK_NUM %d\n",$3);
-	   /* set value to 0*/
-	   upVar($2,0);
-	}
-    |
 	TOK_ID TOK_EQUAL expr TOK_SEMICOLON
     {
 	fprintf(stdout, "Reached at also TOK_NUM %d\n",upVar($1,findVar($1)));
-	
-    }
+    }	
+	| 
+	TOK_INT TOK_ID TOK_SEMICOLON
+	{
+	   upVar($2,0);
+	}
     | 
 	TOK_PRINT TOK_ID TOK_SEMICOLON
     {
@@ -107,21 +95,6 @@
 
 
     expr:
-	TOK_INT
-	{
-	  
-	}
-    | 
-	 expr TOK_ADD expr
-    {
-      $$ = $1 + $3;
-    }
-    | 
-	expr TOK_MUL expr
-    {
-      $$ = $1 * $3;
-    }
-    | 
 	TOK_NUM
     {
 	  fprintf(stdout, "Reached at TOK_NUM\n")
@@ -132,6 +105,16 @@
     {
       $$ = findVar($1);
     }
+	|
+	expr TOK_ADD expr
+    {
+      $$ = $1 + $3;
+    }
+    | 
+	expr TOK_MUL expr
+    {
+      $$ = $1 * $3;
+    }  
     | 
 	TOK_BRAC_SUB TOK_NUM TOK_CLOSE_BRAC
     {
