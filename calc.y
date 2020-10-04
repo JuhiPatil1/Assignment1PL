@@ -60,29 +60,21 @@ void updateVal (char *val, char *id);
 
 %%
 
-main:
-	|  vardefs stmts
-	
-;
 
-vardefs :	
-			| vardef vardefs
+stmts :
+		| stmts stmt
 		;
 		
-vardef : TOK_INT TOK_ID TOK_SEMICOLON
+stmt:
+    TOK_INT TOK_ID TOK_SEMICOLON
 		{
 		//char *tokNumber = (char *)malloc(sizeof(int)*50);
 		//snprintf(tokNumber, sizeof(int)*50, "%d", $2);
 		//printf("--%s",tokNumber
 		insertIntValue($2,"0","int");
 		}
-		;
 
-stmts :
-		| stmt stmts
-		;
-		
-stmt: TOK_ID TOK_EQUAL expr TOK_SEMICOLON 
+    | TOK_ID TOK_EQUAL expr TOK_SEMICOLON 
 	{
 		
 		
