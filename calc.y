@@ -10,11 +10,6 @@
     char identifier[50];
     int table_value;
   }SyTab[1000];
-   struct s{
-		int id_type;
-		int expr_type;
-		double value;
-	} s;
     int var=0;
     int findVar(char* VaNam)
     {
