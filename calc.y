@@ -81,13 +81,13 @@
     Stmt:
 	TOK_INT TOK_ID expr
 	{
-	fprintf(stdout, "Reached at TOK_NUM\n");
+	fprintf(stdout, "Reached at TOK_NUM %d\n",$3);
 	   /* set value to 0*/
 	   upVar($2,$3);
 	}
     |TOK_ID TOK_EQUAL expr
     {
-	fprintf(stdout, "Reached at also TOK_NUM\n");
+	fprintf(stdout, "Reached at also TOK_NUM %d\n",$3);
       upVar($1,$3);
     }
     | TOK_PRINT expr
