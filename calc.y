@@ -16,7 +16,7 @@
       int i=0;
       for(i=0;i<var;i++)
       {
-        if(!strcmp(SyTab[i].identifier,VaNam))
+        if(strcmp(SyTab[i].identifier,VaNam)==0)
         {
           return SyTab[i].table_value;
         }
@@ -29,7 +29,7 @@
       int f=0, i=0;
       for(i=0;i<var;i++)
       {
-        if(!strcmp(SyTab[i].identifier,VaNam))
+        if(strcmp(SyTab[i].identifier,VaNam)==0)
         {
           SyTab[i].table_value = NewVal;
           f=1;
@@ -84,6 +84,7 @@
 	TOK_ID TOK_EQUAL expr TOK_SEMICOLON
     {
 	fprintf(stdout, "Reached at also TOK_NUM %d\n",$3);
+	
       upVar($1,$3);
     }
     | 
