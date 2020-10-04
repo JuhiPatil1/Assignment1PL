@@ -26,6 +26,19 @@
       }
       return 0;
     }
+	
+	 bool checkVar(char* VaNam)
+    {
+      int i=0;
+      for(i=0;i<var;i++)
+      {
+        if(strcmp(SyTab[i].identifier,VaNam)==0)
+        {
+          return true;
+        }
+      }
+      return false;
+    }
 
     void upVar(char* VaNam, int NewVal)
     {
@@ -79,11 +92,16 @@
     Stmt:
 	TOK_ID TOK_EQUAL expr TOK_SEMICOLON
     {
-	fprintf(stdout, "Reached at also TOK_NUM %d\n",upVar($1,findVar($1)));
+	fprintf(stdout, "Reached at also TOK_NUM %d\n",upVar($1,$3));
     }	
 	| 
 	TOK_INT TOK_ID TOK_SEMICOLON
 	{
+		int temp=findVar($2);
+		if(checkVar($2)
+		{
+		return typeerror("Variable is already declared");
+		}
 	   upVar($2,0);
 	}
     | 
@@ -137,6 +155,8 @@
 	printf("Line %d: %s\n", line_no, s);
 	return 0;
 	}
+	
+
 
     int main()
     {
