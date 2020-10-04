@@ -1,54 +1,62 @@
 %{
-#include <stdio.h>
+
+#include<stdio.h>
+#include<math.h>
+#include<string.h>
+#include <stdlib.h>
 #include "calc.tab.h"
-int l=1;
+
+#define YYSTYPE char*
+
+
+#define maxsym 20   /* maximum number of symbols */
+
+struct symbolTable 
+{    
+	char name[50];
+	char value[50]; 
+}
+	 symbolTable [maxsym];
+
 %}
 
-digit	([0-9])
-variable [a-zA-Z][a-zA-Z0-9]*
-lexerr [0-9a-z]*
+digit				([0-9])
+ID				[a-z]+
+
 %%
 
+"int"				{
+						sscanf(yytext, "%s", &(yylval.key));
+						return (TOK_INT);}
 
-"print"	{	return(TOK_PRINT);							}
-";"			{	return(TOK_SEMICOLON);					}
-"+"			{	return(TOK_ADD);								}
-"-"			{
-					printf("\nLexical Error: %s",yytext);
+"print"			{return (TOK_PRINT);}
+
+	
+{digit}+	{	sscanf(yytext, "%d", &(yylval.num_val.intValue));
+				//yylval.num_val.intValue=atoi(yytext);
+				yylval.num_val.numType="int";
+				return TOK_NUM;}
+					
+[a-z][a-z0-9A-Z]*					{sscanf(yytext, "%s", &(yylval.id_name));
+					return(TOK_ID);}
+					
+
+					
+";"					{	return(TOK_SEMICOLON);	}
+"+"					{	return(TOK_ADD);	}
+"*"					{	return(TOK_MUL);	}
+"("					{	return(TOK_OPENB);	}
+")"					{	return(TOK_CLOSEB);	}
+"="					{	return(TOK_EQUAL);	}
+"(-"				{	return(TOK_BRAC_SUB);   }
+"-"			{ printf("\nLexical Analysis Error: %s",yytext);
 					return(yytext[0]);
 				}
-"(-"		{	return(TOK_BRAC_SUB);						}
-"*"			{	return(TOK_MUL);								}
-"/"			{	
-					printf("\nLexical Error: %s",yytext);
-					return(yytext[0]);
-                
-				}
-"=" 		{ return(TOK_EQUAL);							}
-"(" 		{ return(TOK_OPEN_BRAC);					}
-")" 		{ return(TOK_CLOSE_BRAC);					}
-"int"			{	return(TOK_INT);					}
 
 
+"\n"	 			{	yylineno++;		}
 
-[\n] l++;
-" ";
-"  ";
+[ \n\t]* 			;
 
-{digit}+	{
-		sscanf(yytext, "%d", &yylval);
-		return TOK_NUM;
-		}
-
-{variable} {
-sscanf(yytext, "%s", &yylval);
-return(TOK_ID);
-}
-
-{lexerr}	{
-		printf("\nLexical Error: %s",yytext);
-		return(yytext[0]);
-		}
-.return yytext[0];
 
 %%
