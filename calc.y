@@ -64,7 +64,7 @@
 
     /*%type <int_val> expr TOK_NUM*/
     %type <int_val> expr TOK_NUM
-    %type <id> TOK_ID
+    %type <string> TOK_ID
 
     %left TOK_ADD 
     %left TOK_MUL 
@@ -85,12 +85,14 @@
 	   /* set value to 0*/
 	   upVar($2,0);
 	}
-    |TOK_ID TOK_EQUAL expr TOK_SEMICOLON
+    |
+	TOK_ID TOK_EQUAL expr TOK_SEMICOLON
     {
 	fprintf(stdout, "Reached at also TOK_NUM %d\n",$3);
       upVar($1,$3);
     }
-    | TOK_PRINT TOK_ID TOK_SEMICOLON
+    | 
+	TOK_PRINT TOK_ID TOK_SEMICOLON
     {
       fprintf(stdout, "%d\n",findVar($2));
     }
@@ -102,24 +104,29 @@
 	{
 	  
 	}
-    | expr TOK_ADD expr
+    | 
+	 expr TOK_ADD expr
     {
       $$ = $1 + $3;
     }
-    | expr TOK_MUL expr
+    | 
+	expr TOK_MUL expr
     {
       $$ = $1 * $3;
     }
-    | TOK_NUM
+    | 
+	TOK_NUM
     {
 	  fprintf(stdout, "Reached at TOK_NUM\n")
       $$ = $1;
     }
-    | TOK_ID
+    | 
+	TOK_ID
     {
       $$ = findVar($1);
     }
-    | TOK_BRAC_SUB TOK_NUM TOK_CLOSE_BRAC
+    | 
+	TOK_BRAC_SUB TOK_NUM TOK_CLOSE_BRAC
     {
       $$ = $2 * -1;
     }
