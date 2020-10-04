@@ -90,10 +90,6 @@
 	fprintf(stdout, "Reached at also TOK_NUM %d\n",$3);
       upVar($1,$3);
     }
-    | TOK_PRINT expr TOK_SEMICOLON
-    {
-      fprintf(stdout, "%d\n", $2);
-    }
     | TOK_PRINT TOK_ID TOK_SEMICOLON
     {
       fprintf(stdout, "%d\n",findVar($2));
