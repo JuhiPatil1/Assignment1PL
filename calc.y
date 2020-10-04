@@ -10,7 +10,16 @@
     char identifier[50];
     int table_value;
   }SyTab[1000];
-    int var=0;
+  
+  struct symbolTable
+  {
+	int id_value;
+	char* value_name;
+	struct symbolTable* next;
+  }*st;
+    
+	int var=0;
+	
     int findVar(char* VaNam)
     {
       int i=0;
@@ -57,13 +66,16 @@
     }
 
 
-    /*%type <int_val> expr TOK_NUM*/
+    
     %type <int_val> expr TOK_NUM
-    %type <string> TOK_ID
+    
+	%type <string> TOK_ID
 
     %left TOK_ADD 
-    %left TOK_MUL 
-    %left TOK_EQUAL
+    
+	%left TOK_MUL 
+    
+	%left TOK_EQUAL
 
     %%
 
@@ -76,16 +88,15 @@
     Stmt:
 	TOK_INT TOK_ID TOK_SEMICOLON
 	{
-	fprintf(stdout, "Reached at TOK_NUM %d\n",$3);
+	//fprintf(stdout, "Reached at TOK_NUM %d\n",$3);
 	   /* set value to 0*/
 	   upVar($2,0);
 	}
     |
 	TOK_ID TOK_EQUAL expr TOK_SEMICOLON
     {
-	fprintf(stdout, "Reached at also TOK_NUM %d\n",$3);
+	fprintf(stdout, "Reached at also TOK_NUM %d\n",upVar($1,findVar($1)));
 	
-      upVar($1,$3);
     }
     | 
 	TOK_PRINT TOK_ID TOK_SEMICOLON
@@ -114,7 +125,7 @@
 	TOK_NUM
     {
 	  fprintf(stdout, "Reached at TOK_NUM\n")
-      $$ = $1;
+      $$ = $1
     }
     | 
 	TOK_ID
