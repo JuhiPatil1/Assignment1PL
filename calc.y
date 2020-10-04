@@ -1,165 +1,230 @@
 %{
-  #include <stdio.h>
-  #include <string.h>
-  extern int l;
-  int yylex();
-  int yyerror();
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
-  struct table
-  {
-    char identifier[50];
-    int table_value;
-  }SyTab[1000];
-  
-    
-	int var=0;
-	
-    int findVar(char* VaNam)
-    {
-      int i=0;
-      for(i=0;i<var;i++)
-      {
-        if(!strcmp(SyTab[i].identifier,VaNam))
-        {
-          return SyTab[i].table_value;
-        }
-      }
-      return 0;
-    }
-	
-	 bool checkVar(char* VaNam)
-    {
-      int i=0;
-      for(i=0;i<var;i++)
-      {
-        if(strcmp(SyTab[i].identifier,VaNam)==0)
-        {
-          return true;
-        }
-      }
-      return false;
-    }
+extern int yyparse();
+extern	FILE* yyin;
+extern int yylex();
 
-    void upVar(char* VaNam, int NewVal)
-    {
-      int f=0, i=0;
-      for(i=0;i<var;i++)
-      {
-        if(!strcmp(SyTab[i].identifier,VaNam))
-        {
-          SyTab[i].table_value = NewVal;
-          f=1;
-          break;
-        }
-      }
-      if(f==0)
-      {
-        strcpy(SyTab[i].identifier,VaNam);
-        SyTab[i].table_value=NewVal;
-        var++;
-      }
-    }
-    %}
+#define maxsym 20  ;
 
-    %token TOK_SEMICOLON TOK_ADD TOK_MUL TOK_NUM TOK_PRINT
-    %token TOK_OPEN_BRAC TOK_CLOSE_BRAC TOK_EQUAL TOK_ID TOK_BRAC_SUB
-	%token TOK_INT
-	 
-    %union
-    {
-      int int_val;
-      char id[100];
-	  int expr;
-    }
-    
-	%type <expr> expr     
-    %type <int_val> TOK_NUM    
-	%type <id> TOK_ID
+extern int yylineno;
 
-    %left TOK_ADD 
-	%left TOK_MUL 
-    
+struct symbolTable
+{
+	char name[50];
+	char value[50];
+	char type [50];
+};
 
-    %%
 
-   
-	Stmts: 
-	
-	| 
-	 Stmts Stmt
-    ;
-	
-    Stmt:
-	TOK_ID TOK_EQUAL expr TOK_SEMICOLON
-    {
-	fprintf(stdout, "Reached at also TOK_NUM %d\n",upVar($1,$3));
-    }	
-	| 
-	TOK_INT TOK_ID TOK_SEMICOLON
-	{
-		int temp=findVar($2);
-		if(checkVar($2)
+struct symbolTable symTab[10];
+
+int iTableSize = 0;
+
+//Functions
+void insertIntValue(char name[50],char value[50],char type[50]);
+int getIntValue(char name[50]);
+void updateVal (char *val, char *id);
+
+
+%}
+
+
+%token TOK_SEMICOLON TOK_ADD TOK_MUL TOK_OPENB TOK_CLOSEB TOK_EQUAL  %token TOK_ID TOK_INT TOK_PRINT
+
+%token<num_val> TOK_NUM
+
+%union{
+		char id_name[100];
+		char key[100];
+		struct numberType
 		{
-		return typeerror("Variable is already declared");
+			char *numType;
+			int intValue;
+		};
+		struct numberType num_val;
+		
+		
+}
+
+%type<num_val> expr constants
+%type<id_name> TOK_ID
+%type<key> TOK_INT
+
+
+%left TOK_ADD
+%left TOK_MUL
+
+
+%%
+
+main:
+	|  vardefs stmts
+	
+;
+
+vardefs :	
+			| vardef vardefs
+		;
+		
+vardef : TOK_INT TOK_ID TOK_SEMICOLON
+		{
+		//char *tokNumber = (char *)malloc(sizeof(int)*50);
+		//snprintf(tokNumber, sizeof(int)*50, "%d", $2);
+		//printf("--%s",tokNumber
+		insertIntValue($2,"0","int");
 		}
-	   upVar($2,0);
-	}
-    | 
-	TOK_PRINT TOK_ID TOK_SEMICOLON
-    {
-      fprintf(stdout, "%d\n",findVar($2));
-    }
-    ;
+		;
 
-
-    expr:
-	TOK_NUM
-    {
-	  fprintf(stdout, "Reached at TOK_NUM\n")
-      $$ = $1
-    }
-    | 
-	TOK_ID
-    {
-      $$ = findVar($1);
-    }
-	|
-	expr TOK_ADD expr
-    {
-      $$ = $1 + $3;
-    }
-    | 
-	expr TOK_MUL expr
-    {
-      $$ = $1 * $3;
-    }  
-    | 
-	TOK_BRAC_SUB TOK_NUM TOK_CLOSE_BRAC
-    {
-      $$ = $2 * -1;
-    }
-    ;
-
-
-    %%
-
-    int yyerror(char *s)
-    {
-      //printf("Reaching here");
-      printf("\nParsing Error: Line %d \n",l);
-      return 0;
-    }
-	
-	int typeerror(const char *s)
+stmts :
+		| stmt stmts
+		;
+		
+stmt: TOK_ID TOK_EQUAL expr TOK_SEMICOLON 
 	{
-	printf("Line %d: %s\n", line_no, s);
-	return 0;
+		
+		
+		int index1=getIntValue($1);
+		if(index1 > -1)
+		{
+		//printf("type %s\n",$3.numType);
+		if(strcmp(symTab[index1].type,$3.numType)==0)
+			{
+			//printf("Value %d\n",$3.intValue);
+			char *exprval = (char *)malloc(sizeof(int)*50);
+			snprintf(exprval, sizeof(int)*50, "%d", $3.intValue);
+
+			//printf("%s\n",exprval);
+			updateVal (exprval,$1);
+			}
+				else
+					{
+					yyerror("Type error");
+					}
+		}
+		else
+		{
+		yyerror(strcat($1," is used but is not declared"));
+		}
 	}
 	
+	|  TOK_PRINT TOK_ID TOK_SEMICOLON
+	{
+		//printf("in pid :");
+		int index = getIntValue($2);
+		//printf("%d",index);
+		printf("%s\n",symTab[index].value);
+	}
+	
+;
 
 
-    int main()
+expr: 	 
+	
+	  expr TOK_ADD expr
+	  {
+		if(strcmp($1.numType,$3.numType)==0)
+		{
+			struct numberType finalValue;
+			finalValue.numType=$1.numType;
+			finalValue.intValue=$1.intValue + $3.intValue;
+			
+			
+				
+			$$=finalValue;
+		}
+		else
+			yyerror("Type error");
+	  }
+	| expr TOK_MUL expr
+	  {
+		if(strcmp($1.numType,$3.numType)==0)
+		{
+			struct numberType finalValue;
+			finalValue.numType=$1.numType;
+			finalValue.intValue=$1.intValue * $3.intValue;
+			
+				
+			$$=finalValue;
+		}
+		else
+			yyerror("Type error");
+	  }
+	|	TOK_ID
+	{
+		int index = getIntValue($1);
+		struct numberType idData;
+			idData.intValue=atoi(symTab[index].value);
+			idData.numType="int";
+		
+		
+		$$=idData;
+		
+	}
+	| constants
+	{
+		
+		$$=$1;
+		//printf("Value %d",$$.intValue);
+	}
+	
+;
+
+
+constants:	TOK_NUM 
+	  { 	
+		//printf("Value %d",$1.intValue);
+		$$=$1;
+	  }
+
+%%
+
+void insertIntValue(char Name[50], char Value[50], char Type[50])
+{
+    strcpy(symTab[iTableSize].name, Name);
+    strcpy(symTab[iTableSize].value, Value);
+	strcpy(symTab[iTableSize].type, Type);
+	//printf("\n %s : %s : %s", symTab[iTableSize].name, symTab[iTableSize].value, symTab[iTableSize].type);
+    iTableSize++;
+}
+
+int getIntValue(char name[50])
+{
+int i = 0;
+    if(0 != iTableSize)
     {
-      yyparse();
-      return 0;
+        for(i ; i < iTableSize; i++)
+        {
+            if( strcmp(name, symTab[i].name) == 0)
+            {
+				//printf("%d", i);
+                return i;
+            }
+        }
+        
     }
+    else
+    {
+        return -1;
+    }
+}
+
+void updateVal (char *val, char *id)
+	{
+		int index= getIntValue(id);
+		strcpy(symTab[index].value,val);
+	}
+
+int yyerror(char *s)
+{
+	printf(" Parsing Error at Line number %d\n%s\n",yylineno,s);
+	return 0;
+}
+
+int main()
+{
+   yyparse();
+   return 0;
+}
