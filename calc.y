@@ -72,65 +72,21 @@
 
     %%
 
-	Vardef :
-	| TOK_INT;
-
-
-
-
-
-    Prog:
-	|
-      stmts;
-    ;
-	
-	stmts: 
-	|
-	Vardef TOK_SEMICOLON Vardefs;
+   
+	Stmts: 
 	| 
-	stmt TOK_SEMICOLON stmts;
+	Stmts Stmt TOK_SEMICOLON;
     ;
-	Vardefs:
-		|
-		Vardef TOK_SEMICOLON Vardefs;
-
-	;
-	Vardef:	
-		|
-	TOK_INT TOK_ID
-		{ 
-			s.id_type = 1;			
-		}
-;
 	
-	
-    stmt:
-	TOK_ID TOK_EQUAL expr
-		{
-			if(s.id_type != 1 && s.id_type != 2)
-			{
-				return typeerror("Variable is used but not declared");
-			}
-			if(s.id_type != s.expr_type)
-			{
-				fprintf(stdout, "Type error EXP: %d ID: %d\n", s.expr_type, s.id_type);
-				return typeerror("Type error");
-			}
-			
-			upVar($1,$3);
-
-		}
-	|  TOK_ID TOK_EQUAL expr
+    Stmt:
+	TOK_INT TOK_ID expr
+	{
+	   /* set value to 0*/
+	   upVar($2,$3);
+	}
+    |  TOK_ID TOK_EQUAL expr
     {
       upVar($1,$3);
-    }
-    | TOK_ID TOK_ADD TOK_EQUAL expr
-    {
-      upVar($1, findVar($1) + $4);
-    }
-	| TOK_ID TOK_MUL TOK_EQUAL expr
-    {
-      upVar($1, findVar($1) * $4);
     }
     | TOK_PRINT expr
     {
@@ -144,7 +100,11 @@
 
 
     expr:
-     expr TOK_ADD expr
+	TOK_INT
+	{
+	  
+	}
+    | expr TOK_ADD expr
     {
       $$ = $1 + $3;
     }
