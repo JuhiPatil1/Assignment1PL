@@ -130,8 +130,6 @@ expr:
 			struct numberType finalValue;
 			finalValue.numType=$1.numType;
 			finalValue.intValue=$1.intValue + $3.intValue;
-			
-			
 				
 			$$=finalValue;
 		}
@@ -163,6 +161,15 @@ expr:
 		$$=idData;
 		
 	}
+	| 
+	TOK_BRAC_SUB TOK_NUM TOK_CLOSE_BRAC
+    {
+	  struct numberType finalValue;
+	  finalValue.numType=$2.numType;
+	  finalValue.intValue=$2.intValue * -1;
+			
+      $$ = finalValue;
+    }
 	| constants
 	{
 		
