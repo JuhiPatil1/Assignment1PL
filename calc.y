@@ -48,7 +48,7 @@
     %token TOK_SEMICOLON TOK_ADD TOK_MUL TOK_NUM TOK_PRINT
     %token TOK_OPEN_BRAC TOK_CLOSE_BRAC TOK_EQUAL TOK_ID TOK_BRAC_SUB
 	%token TOK_INT
-	%token<int_val> INT 
+	 
 
     %union
     {
