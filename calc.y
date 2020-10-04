@@ -75,7 +75,7 @@
    
 	Stmts: 
 	| 
-	Stmts Stmt TOK_SEMICOLON;
+	Stmt TOK_SEMICOLON Stmts;
     ;
 	
     Stmt:
