@@ -79,11 +79,11 @@
     ;
 	
     Stmt:
-	TOK_INT TOK_ID expr TOK_SEMICOLON
+	TOK_INT TOK_ID TOK_SEMICOLON
 	{
 	fprintf(stdout, "Reached at TOK_NUM %d\n",$3);
 	   /* set value to 0*/
-	   upVar($2,$3);
+	   upVar($2,0);
 	}
     |TOK_ID TOK_EQUAL expr TOK_SEMICOLON
     {
