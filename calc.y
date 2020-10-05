@@ -69,14 +69,17 @@ stmts :
 stmt:
     TOK_INT TOK_ID TOK_SEMICOLON
 		{
-		//char *tokNumber = (char *)malloc(sizeof(int)*50);
-		//snprintf(tokNumber, sizeof(int)*50, "%d", $2);
-		//printf("--%s",tokNumber
-		if(getIntValue($2)!=-1)
+
+        int temp=getIntValue($2);
+		fprintf(stdout,"temp value:%d\n",temp);
+		if(temp!=-1)
 		{
 		 return typeerror("Variable is already defined more than once.\n");
 		}
+		else{
 		insertIntValue($2,"0","int");
+		}
+		
 		}
 
     | TOK_ID TOK_EQUAL expr TOK_SEMICOLON 
@@ -86,14 +89,12 @@ stmt:
 		int index1=getIntValue($1);
 		if(index1 > -1)
 		{
-		//printf("type %s\n",$3.numType);
+
 		if(strcmp(symTab[index1].type,$3.numType)==0)
 			{
-			//printf("Value %d\n",$3.intValue);
+
 			char *exprval = (char *)malloc(sizeof(int)*50);
 			snprintf(exprval, sizeof(int)*50, "%d", $3.intValue);
-
-			//printf("%s\n",exprval);
 			updateVal (exprval,$1);
 			}
 				else
@@ -109,9 +110,7 @@ stmt:
 	
 	|  TOK_PRINT TOK_ID TOK_SEMICOLON
 	{
-		//printf("in pid :");
 		int index = getIntValue($2);
-		//printf("%d",index);
 		printf("%s\n",symTab[index].value);
 	}
 	
@@ -173,7 +172,6 @@ expr:
 	{
 		
 		$$=$1;
-		//printf("Value %d",$$.intValue);
 	}
 	
 ;
@@ -181,7 +179,6 @@ expr:
 
 constants:	TOK_NUM 
 	  { 	
-		//printf("Value %d",$1.intValue);
 		$$=$1;
 	  }
 
