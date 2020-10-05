@@ -76,7 +76,7 @@ stmt:
 		int index1=getIntValue($1);
 		if(index1 > -1)
 		{
-		  yyerror("type error: <%s> is defined more than once",$2);
+		  yyerror("type error: %s is defined more than once",$2);
 		}
 		
 		insertIntValue($2,"0","int");
