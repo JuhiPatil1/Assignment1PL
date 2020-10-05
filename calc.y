@@ -72,6 +72,7 @@ stmt:
 
         int temp=getIntValue($2);
 		fprintf(stdout,"temp value:%d\n",temp);
+		printf("temp value:%d\n",temp);
 		if(temp!=-1)
 		{
 		 return typeerror("Variable is already defined more than once.\n");
@@ -202,7 +203,6 @@ int i = 0;
         {
             if( strcmp(name, symTab[i].name) == 0)
             {
-				//printf("%d", i);
                 return i;
             }
         }
