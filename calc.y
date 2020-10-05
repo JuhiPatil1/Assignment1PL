@@ -32,7 +32,7 @@ void updateVal (char *val, char *id);
 %}
 
 
-%token TOK_SEMICOLON TOK_ADD TOK_MUL TOK_OPENB TOK_CLOSEB TOK_EQUAL  %token TOK_ID TOK_INT TOK_PRINT
+%token TOK_SEMICOLON TOK_ADD TOK_MUL TOK_OPENB TOK_CLOSEB TOK_EQUAL  %token TOK_ID TOK_INT TOK_PRINT TOK_BRAC_SUB
 
 %token<num_val> TOK_NUM
 
@@ -154,7 +154,7 @@ expr:
 		
 	}
 	| 
-	 TOK_BRAC_SUB expr TOK_CLOSEB
+	expr TOK_ADD TOK_BRAC_SUB expr TOK_CLOSEB
     {
 			struct numberType finalValue;
 			finalValue.numType=$2.numType;
