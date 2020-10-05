@@ -27,6 +27,7 @@ int iTableSize = 0;
 void insertIntValue(char name[50],char value[50],char type[50]);
 int getIntValue(char name[50]);
 void updateVal (char *val, char *id);
+int typeerror(const char *s)
 
 
 %}
@@ -73,7 +74,7 @@ stmt:
 		//printf("--%s",tokNumber
 		if(getIntValue($2)!=-1)
 		{
-		 yyerror(strcat($2," is already defined more than once.\n"));
+		 return typeerror("Variable is already defined more than once.\n");
 		}
 		insertIntValue($2,"0","int");
 		}
@@ -228,7 +229,11 @@ int yyerror(char *s)
 	return 0;
 }
 
-
+	int typeerror(const char *s)
+	{
+	printf("Line %d: %s\n", line_no, s);
+	return 0;
+	}
 
 int main()
 {
