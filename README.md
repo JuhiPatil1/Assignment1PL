@@ -16,4 +16,4 @@ Steps to execute the program:
 2)	executable file is name: "calc"
 command:
  ./calc < (input_file_name) 
-
+Note : Please ignore the warning, the code is working fine.
