@@ -48,6 +48,7 @@ ID				[a-z]+
 "("					{	return(TOK_OPENB);	}
 ")"					{	return(TOK_CLOSEB);	}
 "="					{	return(TOK_EQUAL);	}
+"(-"				{	return(TOK_BRAC_SUB);   }
 "-"			{ printf("\nLexical Analysis Error: %s",yytext);
 					return(yytext[0]);
 				}
