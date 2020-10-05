@@ -227,7 +227,7 @@ void updateVal (char *val, char *id)
 
 int typeerror(const char *s)
 {
-	printf("type error: %s\n", line_no, s);
+	printf("type error: %s\n", s);
 	return 0;
 }
 
