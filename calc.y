@@ -1,4 +1,3 @@
-
   
 %{
 #include <stdio.h>
@@ -74,6 +73,12 @@ stmt:
         //int temp=getIntValue($2);
 		//fprintf(stdout,"temp value:%d\n",temp);
 		//printf("temp value:%d\n",temp);
+		int index1=getIntValue($1);
+		if(index1 > -1)
+		{
+		  yyerror("type error: <%s> is defined more than once",$2);
+		}
+		
 		insertIntValue($2,"0","int");
 		
 		
