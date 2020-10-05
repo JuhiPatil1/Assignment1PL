@@ -154,11 +154,11 @@ expr:
 		
 	}
 	| 
-	 expr TOK_ADD TOK_BRAC_SUB expr TOK_CLOSEB
+	 TOK_BRAC_SUB TOK_NUM TOK_CLOSEB
     {
 			struct numberType finalValue;
-			finalValue.numType=$1.numType;
-			finalValue.intValue=$1.intValue - $4.intValue;
+			finalValue.numType=$2.numType;
+			finalValue.intValue=$2.intValue * -1;
 				
 			$$=finalValue;
 		
