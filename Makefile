@@ -1,6 +1,11 @@
-calcout.exe :	calc.tab.c
+calc: flex  bison
 	gcc -o calc calc.tab.c lex.yy.c -lfl
 
-calc.tab.c :	calc.l
+flex: calc.l
 	flex -l calc.l
+
+bison: calc.y
 	bison -dv calc.y
+
+clean:
+	rm calc calc.tab.c lex.yy.c calc.tab.h calc.output
