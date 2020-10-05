@@ -28,6 +28,7 @@ int iTableSize = 0;
 void insertIntValue(char name[50],char value[50],char type[50]);
 int getIntValue(char name[50]);
 void updateVal (char *val, char *id);
+int typeerror(const char *s);
 
 
 %}
@@ -76,8 +77,9 @@ stmt:
 		int index1=getIntValue($1);
 		if(index1 > -1)
 		{
-		  yyerror("type error:");
-		  yyerror(strcat($2," is defined more than once"));
+		  //yyerror("type error:");
+		  //yyerror(strcat($2," is defined more than once"));
+		  return typeerror(strcat($2," is defined more than once"));
 		}
 		
 		insertIntValue($2,"0","int");
@@ -222,6 +224,12 @@ void updateVal (char *val, char *id)
 		int index= getIntValue(id);
 		strcpy(symTab[index].value,val);
 	}
+
+int typeerror(const char *s)
+{
+	printf("type error: %s\n", line_no, s);
+	return 0;
+}
 
 int yyerror(char *s)
 {
