@@ -77,7 +77,7 @@ stmt:
 		if(index1 > -1)
 		{
 		  yyerror("type error:");
-		  yyerror(strcat($2,"is defined more than once");
+		  yyerror(strcat($2,"is defined more than once"));
 		}
 		
 		insertIntValue($2,"0","int");
