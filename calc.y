@@ -71,7 +71,7 @@ stmt:
     TOK_INT TOK_ID TOK_SEMICOLON
 		{
 
-		int index1=getIntValue($1);
+		int index1=getIntValue($2);
 		if(index1 > -1)
 		{
 		  return typeerror(strcat($2," is defined more than once"));
