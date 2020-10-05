@@ -71,14 +71,9 @@ stmt:
     TOK_INT TOK_ID TOK_SEMICOLON
 		{
 
-        //int temp=getIntValue($2);
-		//fprintf(stdout,"temp value:%d\n",temp);
-		//printf("temp value:%d\n",temp);
 		int index1=getIntValue($1);
 		if(index1 > -1)
 		{
-		  //yyerror("type error:");
-		  //yyerror(strcat($2," is defined more than once"));
 		  return typeerror(strcat($2," is defined more than once"));
 		}
 		
@@ -109,8 +104,7 @@ stmt:
 		}
 		else
 		{
-		yyerror("type error:");
-		yyerror(strcat($1," is used but is not defined"));
+		return typeerror(strcat($2," is used but is not defined"));
 		}
 	}
 	
