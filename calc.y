@@ -154,7 +154,7 @@ expr:
 		
 	}
 	| 
-	expr TOK_ADD TOK_BRAC_SUB expr TOK_CLOSEB
+	TOK_BRAC_SUB expr TOK_CLOSEB
     {
 			struct numberType finalValue;
 			finalValue.numType=$2.numType;
