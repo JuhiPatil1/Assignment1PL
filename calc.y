@@ -75,7 +75,7 @@ stmt:
 		printf("temp value:%d\n",temp);
 		if(temp > -1)
 		{
-		 return typeerror("Variable is already defined more than once.\n");
+		 yyerror(strcat("Variable <",$2,"> is defined more than once "));
 		}
 		else{
 		insertIntValue($2,"0","int");
@@ -105,7 +105,7 @@ stmt:
 		}
 		else
 		{
-		yyerror(strcat($1," is used but is not declared"));
+		yyerror(strcat("Variable <",$1,"> is used but is not defined"));
 		}
 	}
 	
