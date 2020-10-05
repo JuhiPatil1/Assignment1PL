@@ -27,7 +27,7 @@ int iTableSize = 0;
 void insertIntValue(char name[50],char value[50],char type[50]);
 int getIntValue(char name[50]);
 void updateVal (char *val, char *id);
-int typeerror(const char *s)
+int typeerror(const char *s);
 
 
 %}
