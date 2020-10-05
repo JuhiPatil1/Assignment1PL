@@ -105,7 +105,7 @@ stmt:
 		}
 		else
 		{
-		yyerror(strcat("Variable <",$1,"> is used but is not defined"));
+		yyerror(strcat("type error: <",$1,"> is used but is not defined"));
 		}
 	}
 	
