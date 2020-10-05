@@ -104,7 +104,7 @@ stmt:
 		}
 		else
 		{
-		return typeerror(strcat($2," is used but is not defined"));
+		return typeerror(strcat($1," is used but is not defined"));
 		}
 	}
 	
