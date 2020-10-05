@@ -71,6 +71,10 @@ stmt:
 		//char *tokNumber = (char *)malloc(sizeof(int)*50);
 		//snprintf(tokNumber, sizeof(int)*50, "%d", $2);
 		//printf("--%s",tokNumber
+		if(getIntValue($2)!=-1)
+		{
+		 yyerror(strcat($2," is already defined more than once.\n"));
+		}
 		insertIntValue($2,"0","int");
 		}
 
@@ -223,6 +227,8 @@ int yyerror(char *s)
 	printf(" Parsing Error at Line number %d\n%s\n",yylineno,s);
 	return 0;
 }
+
+
 
 int main()
 {
