@@ -76,6 +76,7 @@ stmt:
 		int index1=getIntValue($1);
 		if(index1 > -1)
 		{
+		  yyerror("type error:");
 		  yyerror(strcat("type error:",strcat($2," is defined more than once")));
 		}
 		
@@ -106,9 +107,8 @@ stmt:
 		}
 		else
 		{
-		yyerror(strcat("type error:",strcat($1," is used but is not defined")));
-		//yyerror("type error:");
-		//yyerror(strcat($1," is used but is not defined"));
+		yyerror("type error:");
+		yyerror(strcat($1," is used but is not defined"));
 		}
 	}
 	
