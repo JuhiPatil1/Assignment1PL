@@ -1,3 +1,38 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@JuhiPatil1 
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+
+JuhiPatil1
+/
+Assignment1PL
+1
+00
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+Assignment1PL/calc.y
+@JuhiPatil1
+JuhiPatil1 Update calc.y
+Latest commit 4a76e44 now
+ History
+ 1 contributor
+239 lines (182 sloc)  3.57 KB
+  
 %{
 #include <stdio.h>
 #include <string.h>
@@ -27,7 +62,6 @@ int iTableSize = 0;
 void insertIntValue(char name[50],char value[50],char type[50]);
 int getIntValue(char name[50]);
 void updateVal (char *val, char *id);
-int typeerror(const char *s);
 
 
 %}
@@ -70,16 +104,11 @@ stmt:
     TOK_INT TOK_ID TOK_SEMICOLON
 		{
 
-        int temp=getIntValue($2);
-		fprintf(stdout,"temp value:%d\n",temp);
-		printf("temp value:%d\n",temp);
-		if(temp > -1)
-		{
-		 return typeerror("Variable is already defined more than once.\n");
-		}
-		else{
+        //int temp=getIntValue($2);
+		//fprintf(stdout,"temp value:%d\n",temp);
+		//printf("temp value:%d\n",temp);
 		insertIntValue($2,"0","int");
-		}
+		
 		
 		}
 
@@ -226,11 +255,7 @@ int yyerror(char *s)
 	return 0;
 }
 
-	int typeerror(const char *s)
-	{
-	printf("Line %d: %s\n", yylineno, s);
-	return 0;
-	}
+
 
 int main()
 {
