@@ -105,7 +105,7 @@ stmt:
 		}
 		else
 		{
-		yyerror(strcat($1," is used but is not defned"));
+		yyerror(strcat($1," is used but is not defined"));
 		}
 	}
 	
