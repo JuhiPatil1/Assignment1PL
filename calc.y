@@ -231,7 +231,7 @@ int yyerror(char *s)
 
 	int typeerror(const char *s)
 	{
-	printf("Line %d: %s\n", line_no, s);
+	printf("Line %d: %s\n", yylineno, s);
 	return 0;
 	}
 
